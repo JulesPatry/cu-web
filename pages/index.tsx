@@ -1,20 +1,31 @@
-import { useMemo, useEffect } from 'react';
-import { io } from 'socket.io-client';
+import { useState } from 'react';
+import useSocket from 'hooks/useSocket';
 
 function Home() {
-  const socket = useMemo(() => {
-    return io('ws://localhost:3001');
-  }, []);
+  const socket = useSocket();
+  const [input, setInput] = useState('');
+  const [game, setGame] = useState({
+    gameStatus: 'not-started',
+  });
 
-  useEffect(() => {
-    socket.on('hello', (arg) => {
-      console.log('arg', arg);
-    });
+  function handleInitGame() {}
+  function handleStartGame() {}
+  function handleCalculateTurn() {
+    const value = Math.random() + '';
+    setInput(value);
+    socket.emit('', value);
+  }
 
-    socket.emit('hello2', 'omg');
-  }, []);
-
-  return <div>hello world</div>;
+  return (
+    <div>
+      <h1>Reads</h1>
+      <p>Game: {JSON.stringify(game)}</p>
+      <p>Input: {input}</p>
+      <button onClick={handleInitGame}>Init Game</button>
+      <button onClick={handleStartGame}>Start Game</button>
+      <button onClick={handleCalculateTurn}>turn</button>
+    </div>
+  );
 }
 
 export default Home;
