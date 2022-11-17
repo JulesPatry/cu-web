@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useSocket from 'hooks/useSocket';
 
 function Home() {
@@ -7,6 +7,12 @@ function Home() {
   const [game, setGame] = useState({
     gameStatus: 'not-started',
   });
+
+  useEffect(() => {
+    socket.on('connection', () => {
+      console.log('');
+    });
+  }, []);
 
   function handleInitGame() {}
   function handleStartGame() {}
@@ -17,7 +23,7 @@ function Home() {
   }
 
   return (
-    <div>
+    <div style={{ padding: 28 }}>
       <h1>Reads</h1>
       <p>Game: {JSON.stringify(game)}</p>
       <p>Input: {input}</p>
